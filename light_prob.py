@@ -56,7 +56,7 @@ def num_factors(number: int) -> int:
     return num_factors
 
 
-def will_switch(number: int) -> int:
+def will_switch(number: int) -> bool:
     """Determine if switch on or off by end by number of factors. If even  will be off, if odd will be on."""
     return num_factors(number) % 2 != 0
 
@@ -80,18 +80,19 @@ def print_building(number: int, on_switches: list[int]) -> str:
     num_rows = (
         int(approx_rows) if approx_rows == int(approx_rows) else int(approx_rows) + 1
     )
+    print_str = ""
     for row in range(num_rows):
-        print(
-            "| ".join(
-                [
-                    f"{row * num_cols + (col + 1):<5}"
-                    if row * num_cols + (col + 1) in on_switches
-                    else f"{'':<5}"
-                    for col in range(num_cols)
-                ]
-            )
+        print_str += "| ".join(
+            [
+                f"{row * num_cols + (col + 1):<5}"
+                if row * num_cols + (col + 1) in on_switches
+                else f"{'':<5}"
+                for col in range(num_cols)
+            ]
         )
+        print_str += "\n"
     print(f"Rows: {num_rows}, Cols: {num_cols}")
+    return print_str
 
 
 def main():
@@ -103,7 +104,7 @@ def main():
     t0 = time.perf_counter()
     theory = proof_switch(SWITCHES)
     t1t = time.perf_counter() - t0
-    print_building(SWITCHES, theory)
+    print(print_building(SWITCHES, theory))
     print(f"Experimental {experiment}")
     print(f"Time Exec: {t1e} s")
     print(f"Theoretical: {theory}")
